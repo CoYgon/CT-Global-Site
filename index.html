@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>DevLab :: root@gatekeeper</title>
+    <meta
+      name="description"
+      content="200 kişilik elit bir geliştirici topluluğuna açılan kapı. C++, Rust, Python, sistem mimarisi ve ağ güvenliği üzerine kod yazan, sistemleri zorlayan insanlar için."
+    />
+
+    <!-- Open Graph -- link paylaşıldığında sosyal medyada rezil olmamak için -->
+    <meta property="og:title" content="DevLab // Gatekeeper Terminal" />
+    <meta
+      property="og:description"
+      content="Sıradan bir portfolyo değil. Kodu düzelt, kapıyı aç."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#05070a" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- ═══════════════════════ GÜVENLİK BAŞLIKLARI ═══════════════════════
+         Statik hosting (Vercel/GH Pages) HTTP header enjekte etmemize her
+         zaman izin vermiyor, o yüzden meta ile ayarlanabilenleri buradan,
+         geri kalanını (X-Frame-Options, Permissions-Policy, HSTS...)
+         vercel.json / public/_headers üzerinden veriyoruz. Detaylar
+         README.md → "Güvenlik Sertleştirme" bölümünde. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' data: https://avatars.githubusercontent.com;
+        connect-src 'self';
+        worker-src 'self' blob:;
+        frame-src 'self';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'self';
+        upgrade-insecure-requests;
+      "
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- JetBrains Mono — tek font ailesi, tüm site. Karışıklık yok, disiplin var. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-void text-ink font-mono antialiased selection:bg-signal-green selection:text-void">
+    <!-- CRT tarama çizgisi + vignette -- sayfanın her yerinde ambient hacker hissi -->
+    <div class="crt-overlay" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+
+    <!-- Üst durum çubuğu — gerçek bir tmux/statusline gibi -->
+    <header class="fixed top-0 inset-x-0 z-40 border-b border-void-border bg-void-900/80 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 text-xs sm:text-sm">
+        <div class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-signal-green animate-pulse-glow"></span>
+          <span class="text-ink-dim">devlab</span>
+          <span class="hidden text-ink-faint sm:inline">/</span>
+          <span class="hidden text-signal-blue sm:inline">gatekeeper.sh</span>
+        </div>
+        <nav class="hidden gap-6 text-ink-dim sm:flex">
+          <a href="#gatekeeper" class="transition hover:text-signal-green">01_exam</a>
+          <a href="#projects" class="transition hover:text-signal-green">02_projects</a>
+          <a href="#github" class="transition hover:text-signal-green">03_github</a>
+          <a href="#join" class="transition hover:text-signal-green">04_join</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <a
+            id="github-header-link"
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub profili"
+            class="text-ink-dim transition hover:text-signal-green"
+          >
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+            </svg>
+          </a>
+          <div class="text-ink-faint" id="clock">--:--:--</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-5 pt-24 pb-20 sm:pb-0">
+      <!-- ══════════════════════ HERO / BOOT SEQUENCE ══════════════════════ -->
+      <section id="hero" class="flex min-h-[85vh] flex-col justify-center py-16">
+        <div class="rounded-lg border border-void-border bg-void-800/60 shadow-terminal">
+          <div class="flex items-center gap-2 border-b border-void-border px-4 py-2.5">
+            <span class="h-3 w-3 rounded-full bg-signal-red/70"></span>
+            <span class="h-3 w-3 rounded-full bg-signal-amber/70"></span>
+            <span class="h-3 w-3 rounded-full bg-signal-green/70"></span>
+            <span class="ml-3 text-xs text-ink-faint">bash — /root/boot.sh</span>
+          </div>
+          <div class="min-h-[280px] px-5 py-6 text-sm leading-relaxed sm:text-base" id="boot-terminal">
+            <!-- terminal.ts tarafından daktilo efektiyle dolduruluyor -->
+          </div>
+        </div>
+
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <a
+            href="#gatekeeper"
+            class="group inline-flex items-center justify-center gap-2 rounded-md border border-signal-green/40 bg-signal-green/10 px-6 py-3 text-signal-green transition hover:bg-signal-green/20"
+          >
+            <span>&gt; kapıya_git</span>
+            <span class="transition group-hover:translate-x-1">→</span>
+          </a>
+          <p class="text-xs text-ink-faint sm:text-sm">
+            ipucu: klavyeni dinliyoruz. bazı kelimeler bazı şeyleri açar.
+          </p>
+        </div>
+      </section>
+
+      <!-- ══════════════════════ GATEKEEPER / MONACO EXAM ══════════════════════ -->
+      <section id="gatekeeper" class="scroll-mt-24 py-20">
+        <div class="mb-8">
+          <p class="text-xs uppercase tracking-[0.3em] text-signal-blue">01 / erişim protokolü</p>
+          <h2 class="mt-3 text-2xl font-semibold text-white sm:text-4xl">
+            Kapı, kod bilenler için açılır.
+          </h2>
+          <p class="mt-4 max-w-2xl text-sm text-ink-dim sm:text-base">
+            Aşağıdaki <code class="text-signal-green">decodeMessage()</code> fonksiyonunda bilinçli
+            olarak bırakılmış bir bug var. Şifreli mesaj çözülmüyor. Kodu düzelt,
+            <span class="text-signal-blue">[ÇALIŞTIR]</span>'a bas. Doğru cevap topluluk davetini açar.
+            Bu bir portfolyo süsü değil — gerçek bir filtre.
+          </p>
+        </div>
+
+        <div class="grid gap-5 lg:grid-cols-2">
+          <!-- Monaco editörü buraya mount edilecek -->
+          <div class="overflow-hidden rounded-lg border border-void-border bg-[#0d1117] shadow-terminal">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-void-border px-4 py-2.5">
+              <div class="flex items-center gap-2 text-xs text-ink-faint">
+                <span class="h-2 w-2 rounded-full bg-signal-amber"></span>
+                gatekeeper_exam.js
+              </div>
+              <button
+                id="run-btn"
+                class="rounded border border-signal-green/40 bg-signal-green/10 px-4 py-1.5 text-xs font-semibold text-signal-green transition hover:bg-signal-green/25 active:scale-95"
+              >
+                ▶ ÇALIŞTIR [RUN]
+              </button>
+            </div>
+            <div id="monaco-editor" class="h-[320px] w-full sm:h-[420px]"></div>
+          </div>
+
+          <!-- Sahte terminal çıktısı -->
+          <div class="flex flex-col overflow-hidden rounded-lg border border-void-border bg-void-800/60 shadow-terminal">
+            <div class="flex items-center gap-2 border-b border-void-border px-4 py-2.5 text-xs text-ink-faint">
+              <span class="h-2 w-2 rounded-full bg-signal-blue"></span>
+              output — stdout/stderr
+            </div>
+            <pre
+              id="gatekeeper-output"
+              class="flex-1 overflow-auto p-4 text-xs leading-relaxed sm:text-sm"
+            ><span class="text-ink-faint">$ waiting for input...</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════ PROJECTS / DEVLOG ══════════════════════ -->
+      <section id="projects" class="scroll-mt-24 py-20">
+        <div class="mb-10">
+          <p class="text-xs uppercase tracking-[0.3em] text-signal-blue">02 / devlog</p>
+          <h2 class="mt-3 text-2xl font-semibold text-white sm:text-4xl">
+            Üretim ortamında test edilmiş şeyler.
+          </h2>
+          <p class="mt-4 max-w-2xl text-sm text-ink-dim sm:text-base">
+            Demo değil, çalışan sistemler. Bootloader'dan raw socket'e, DPI'dan OSINT
+            orkestrasyonuna kadar.
+          </p>
+        </div>
+        <div id="project-grid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- projects.ts tarafından doldurulur -->
+        </div>
+      </section>
+
+      <!-- ══════════════════════ GITHUB ══════════════════════ -->
+      <section id="github" class="scroll-mt-24 py-20">
+        <div class="mb-8">
+          <p class="text-xs uppercase tracking-[0.3em] text-signal-blue">03 / kaynak kod</p>
+          <h2 class="mt-3 text-2xl font-semibold text-white sm:text-4xl">
+            Her satır, her commit açık.
+          </h2>
+          <p class="mt-4 max-w-2xl text-sm text-ink-dim sm:text-base">
+            Portfolyo metni değil, gerçek veri. Aşağıdaki kart her deploy'da
+            GitHub'ın public API'sinden çekilip build'e gömülüyor — repo sayısı,
+            takipçiler ve en yıldızlı projeler dahil.
+          </p>
+        </div>
+
+        <div class="rounded-lg border border-void-border bg-void-800/60 shadow-terminal">
+          <div class="flex items-center gap-2 border-b border-void-border px-4 py-2.5">
+            <span class="h-3 w-3 rounded-full bg-signal-red/70"></span>
+            <span class="h-3 w-3 rounded-full bg-signal-amber/70"></span>
+            <span class="h-3 w-3 rounded-full bg-signal-green/70"></span>
+            <span class="ml-3 text-xs text-ink-faint">curl -s api.github.com/users/…</span>
+          </div>
+          <div id="github-panel" class="p-6 sm:p-8">
+            <!-- github.ts tarafından fetch edilip dolduruluyor -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════ JOIN / FOOTER ══════════════════════ -->
+      <section id="join" class="scroll-mt-24 py-20">
+        <div class="rounded-lg border border-void-border bg-void-800/60 p-8 text-center shadow-terminal sm:p-14">
+          <p class="text-xs uppercase tracking-[0.3em] text-signal-blue">04 / son adım</p>
+          <h2 class="mt-3 text-2xl font-semibold text-white sm:text-3xl">
+            Kapıyı zaten yukarıda buldun.
+          </h2>
+          <p class="mx-auto mt-4 max-w-xl text-sm text-ink-dim sm:text-base">
+            <code class="text-signal-green">decodeMessage()</code>'ı çöz, davet linki terminal
+            çıktısında belirir. Kestirme yok — tıpkı gerçek hayatta olduğu gibi.
+          </p>
+          <a
+            href="#gatekeeper"
+            class="mt-6 inline-flex items-center gap-2 rounded-md border border-signal-blue/40 bg-signal-blue/10 px-6 py-3 text-signal-blue transition hover:bg-signal-blue/20"
+          >
+            &gt; sınava_dön
+          </a>
+        </div>
+      </section>
+
+      <footer class="border-t border-void-border py-10 text-center text-xs text-ink-faint">
+        <p>root@devlab:~$ uptime — çalışıyor, tükenmiyor.</p>
+        <p class="mt-1">© <span id="year"></span> DevLab. Tüm hakları saklıdır, tüm bug'lar kasıtlıdır.</p>
+        <p class="mt-3">
+          <a id="github-footer-link" href="https://github.com" target="_blank" rel="noopener noreferrer" class="transition hover:text-signal-green">github.com/your-github-username</a>
+        </p>
+      </footer>
+    </main>
+
+    <!-- Mobil alt navigasyon — masaüstünde header'daki nav yeterli, burada gizli.
+         Küçük ekranlarda header'a 4 link sığdırmak yerine gerçek bir mobil app
+         gibi sabit bir tab bar kullanıyoruz. -->
+    <nav
+      class="fixed inset-x-0 bottom-0 z-40 flex border-t border-void-border bg-void-900/90 backdrop-blur sm:hidden"
+      aria-label="Mobil bölüm navigasyonu"
+    >
+      <a href="#gatekeeper" class="flex flex-1 flex-col items-center gap-0.5 py-2.5 text-ink-dim transition hover:text-signal-green">
+        <span class="text-[10px] text-signal-blue">01</span>
+        <span class="text-[10px] uppercase tracking-wide">exam</span>
+      </a>
+      <a href="#projects" class="flex flex-1 flex-col items-center gap-0.5 py-2.5 text-ink-dim transition hover:text-signal-green">
+        <span class="text-[10px] text-signal-blue">02</span>
+        <span class="text-[10px] uppercase tracking-wide">projects</span>
+      </a>
+      <a href="#github" class="flex flex-1 flex-col items-center gap-0.5 py-2.5 text-ink-dim transition hover:text-signal-green">
+        <span class="text-[10px] text-signal-blue">03</span>
+        <span class="text-[10px] uppercase tracking-wide">github</span>
+      </a>
+      <a href="#join" class="flex flex-1 flex-col items-center gap-0.5 py-2.5 text-ink-dim transition hover:text-signal-green">
+        <span class="text-[10px] text-signal-blue">04</span>
+        <span class="text-[10px] uppercase tracking-wide">join</span>
+      </a>
+    </nav>
+
+    <!-- Easter egg: Matrix rain canvas + gizli konsol overlay, easter-egg.ts tarafından yönetiliyor -->
+    <canvas id="matrix-canvas" class="pointer-events-none fixed inset-0 z-50 hidden"></canvas>
+    <div
+      id="backdoor-console"
+      class="pointer-events-none fixed inset-0 z-50 hidden items-center justify-center bg-black/90 opacity-0 transition-opacity duration-300"
+    >
+      <div class="rounded-lg border border-signal-green/50 bg-void-900 px-8 py-6 text-center shadow-terminal">
+        <p class="text-lg text-signal-green sm:text-2xl">&gt; you found the backdoor.</p>
+        <p class="mt-2 text-xs text-ink-dim sm:text-sm">
+          (rahatladın mı? "sudo" yazmak seni root yapmıyor, sadece şık görünüyor.)
+        </p>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

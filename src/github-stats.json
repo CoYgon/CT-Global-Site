@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "fetchedAt": "2026-08-02T14:21:12.723Z",
+  "username": "Coygon",
+  "user": {
+    "login": "CoYgon",
+    "name": null,
+    "bio": null,
+    "avatar_url": "https://avatars.githubusercontent.com/u/306320173?v=4",
+    "public_repos": 11,
+    "followers": 0,
+    "following": 0,
+    "html_url": "https://github.com/CoYgon"
+  },
+  "repos": [
+    {
+      "name": "DomainPlus",
+      "html_url": "https://github.com/CoYgon/DomainPlus",
+      "stargazers_count": 1,
+      "language": "JavaScript"
+    },
+    {
+      "name": "CT-Global-Site",
+      "html_url": "https://github.com/CoYgon/CT-Global-Site",
+      "stargazers_count": 0,
+      "language": "TypeScript"
+    },
+    {
+      "name": "OSINT-BROWSER",
+      "html_url": "https://github.com/CoYgon/OSINT-BROWSER",
+      "stargazers_count": 0,
+      "language": "JavaScript"
+    }
+  ]
+}

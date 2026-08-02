@@ -1,0 +1,26 @@
+{
+  "name": "devlab-gatekeeper",
+  "private": true,
+  "version": "1.0.0",
+  "description": "DevLab // Elit geliştirici topluluğuna açılan interaktif kapı.",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/fetch-github-stats.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/fetch-github-stats.mjs",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "deploy:gh-pages": "npm run build && gh-pages -d dist"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "gh-pages": "^6.1.1",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.47.0"
+  }
+}
