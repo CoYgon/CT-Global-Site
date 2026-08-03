@@ -28,23 +28,23 @@
          vercel.json / public/_headers üzerinden veriyoruz. Detaylar
          README.md → "Güvenlik Sertleştirme" bölümünde. -->
     <meta
-      http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self';
-        script-src 'self';
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-        font-src 'self' https://fonts.gstatic.com;
-        img-src 'self' data: https://avatars.githubusercontent.com;
-        connect-src 'self';
-        worker-src 'self' blob:;
-        frame-src 'self';
-        object-src 'none';
-        base-uri 'self';
-        form-action 'self';
-        frame-ancestors 'self';
-        upgrade-insecure-requests;
-      "
-    />
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    script-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: https://avatars.githubusercontent.com;
+    connect-src 'self' https://discord.com;
+    worker-src 'self' blob:;
+    frame-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'self';
+    upgrade-insecure-requests;
+  "
+/>
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <!-- JetBrains Mono — tek font ailesi, tüm site. Karışıklık yok, disiplin var. -->
@@ -232,6 +232,31 @@
           </a>
         </div>
       </section>
+
+      <section id="feedback-section" class="max-w-lg mx-auto my-12 p-6 bg-void-800 border border-void-border rounded-lg">
+  <h2 class="text-signal-red text-xl font-bold mb-4">Şikayet / Öneri</h2>
+  <form id="feedback-form" class="space-y-4">
+    <div>
+      <label class="text-ink-dim text-sm block mb-1">Tür</label>
+      <select id="type" class="w-full bg-void-900 border border-void-border rounded px-3 py-2 text-ink">
+        <option value="Öneri">Öneri</option>
+        <option value="Şikayet">Şikayet</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-ink-dim text-sm block mb-1">Adın (opsiyonel)</label>
+      <input id="name" type="text" class="w-full bg-void-900 border border-void-border rounded px-3 py-2 text-ink" />
+    </div>
+    <div>
+      <label class="text-ink-dim text-sm block mb-1">Mesajın</label>
+      <textarea id="message" required rows="4" class="w-full bg-void-900 border border-void-border rounded px-3 py-2 text-ink"></textarea>
+    </div>
+    <button type="submit" class="w-full bg-signal-red/20 border border-signal-red text-signal-red font-bold py-2 rounded hover:bg-signal-red/30 transition">
+      Gönder
+    </button>
+    <p id="feedback-status" class="text-sm mt-2"></p>
+  </form>
+</section>
 
       <footer class="border-t border-void-border py-10 text-center text-xs text-ink-faint">
         <p>root@devlab:~$ uptime — çalışıyor, tükenmiyor.</p>

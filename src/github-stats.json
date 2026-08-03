@@ -1,18 +1,24 @@
 {
   "ok": true,
-  "fetchedAt": "2026-08-02T14:21:12.723Z",
+  "fetchedAt": "2026-08-02T21:44:52.334Z",
   "username": "Coygon",
   "user": {
     "login": "CoYgon",
     "name": null,
     "bio": null,
     "avatar_url": "https://avatars.githubusercontent.com/u/306320173?v=4",
-    "public_repos": 11,
+    "public_repos": 12,
     "followers": 0,
     "following": 0,
     "html_url": "https://github.com/CoYgon"
   },
   "repos": [
+    {
+      "name": "Mc-1.8.8-Browser",
+      "html_url": "https://github.com/CoYgon/Mc-1.8.8-Browser",
+      "stargazers_count": 0,
+      "language": "HTML"
+    },
     {
       "name": "DomainPlus",
       "html_url": "https://github.com/CoYgon/DomainPlus",
@@ -24,12 +30,6 @@
       "html_url": "https://github.com/CoYgon/CT-Global-Site",
       "stargazers_count": 0,
       "language": "TypeScript"
-    },
-    {
-      "name": "OSINT-BROWSER",
-      "html_url": "https://github.com/CoYgon/OSINT-BROWSER",
-      "stargazers_count": 0,
-      "language": "JavaScript"
     }
   ]
 }

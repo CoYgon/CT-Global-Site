@@ -7,8 +7,9 @@ import { runBootSequence } from "./terminal";
 import { renderProjectGrid } from "./projects";
 import { initEasterEgg } from "./easter-egg";
 import { initGithubSection } from "./github";
+import { initFeedbackForm } from "./feedback";
 import { GITHUB_PROFILE_URL, GITHUB_USERNAME } from "./config";
-
+initFeedbackForm();
 // index.html'deki küçük GitHub linklerinin (header ikonu, footer satırı)
 // href'lerini TEK bir yerden (config.ts) besliyoruz. Asıl GitHub bölümü
 // (canlı istatistikler) github.ts'e ait — initGithubSection() onu yönetiyor.
