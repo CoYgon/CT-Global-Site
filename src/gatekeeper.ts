@@ -39,7 +39,7 @@ const CIPHER_TEXT = "BJQHTRJ_YT_YMJ_QFG"; // "WELCOME_TO_THE_LAB" mesajının sh
 const EXPECTED_PLAINTEXT = "WELCOME_TO_THE_LAB";
 
 const STARTER_CODE = `// ══════════════════════════════════════════
-// GATEKEEPER PROTOCOL v1.3
+// GATEKEEPER PROTOCOL v1.2.0
 // ══════════════════════════════════════════
 // Bu fonksiyon Caesar-cipher ile şifrelenmiş bir mesajı çözmesi
 // gerekiyor ama... bir yerlerde bug var. (Kahve molasında yazılmış,
@@ -54,10 +54,7 @@ function decodeMessage(cipherText, shift) {
       continue;
     }
 
-    const code = cipherText.charCodeAt(i) - 65; // 'A' = 0, 'B' = 1, ...
-
-    // BUG BURADA: şifrelerken +shift yapıldıysa, ÇÖZERKEN -shift yapman lazım.
-    // Şu an ikisini de topluyoruz, bu da mesajı ÇÖZMEK yerine daha da BOZUYOR.
+    const code = cipherText.charCodeAt(i) - 65; // 'A' = 0, 'B' = 1, ....
     const decoded = (code + shift + 26) % 26;
 
     result += String.fromCharCode(decoded + 65);
